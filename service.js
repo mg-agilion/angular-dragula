@@ -20,36 +20,32 @@ function register(angular) {
             droppedModel: getDroppedModel,
             convertModel: convertModel
         };
+
         function handleModels(scope, drake) {
             var dragElm;
             var dragIndex;
             var dropIndex;
             var sourceModel;
+
             drake.on('remove', function removeModel(el, source) {
                 sourceModel = drake.models[drake.containers.indexOf(source)];
                 scope.$applyAsync(function () {
-                    sourceModel.splice(dragIndex, 1);
+                    var removedModels = sourceModel.splice(dragIndex, 1);
+                    drake.emit('remove-model', removedModels[0], sourceModel, dragIndex);
                 });
             });
 
             drake.on('drag', function (el, source) {
                 dragElm = el;
                 dragIndex = domIndexOf(el, source);
-                clearModels();
-                sourceModel = drake.models[drake.containers.indexOf(source)];
-                draggedModel = sourceModel[dragIndex];
-                console.log('drake.drag: draggedModel');
-                console.log(draggedModel);
-/*
                 scope.$applyAsync(function () {
                     clearModels();
                     sourceModel = drake.models[drake.containers.indexOf(source)];
                     draggedModel = sourceModel[dragIndex];
-                    console.log('drake.drag: draggedModel');
-                    console.log(draggedModel);
+                    drake.emit('drag-model', draggedModel, sourceModel, dragIndex);
                 });
-*/
             });
+
             drake.on('cancel', function () {
                 scope.$applyAsync(function () {
                     clearModels();
@@ -58,25 +54,25 @@ function register(angular) {
 
             drake.on('drop', function (dropElm, target, source) {
                 dropIndex = domIndexOf(dropElm, target);
-                scope.$applyAsync(function applyDrop() {
+                scope.$applyAsync(function () {
                     sourceModel = drake.models[drake.containers.indexOf(source)];
+                    var targetModel;
                     if (target === source) {
-                        sourceModel.splice(dropIndex, 0, sourceModel.splice(dragIndex, 1)[0]);
+                        droppedModel = sourceModel.splice(dragIndex, 1)[0];
+                        sourceModel.splice(dropIndex, 0, droppedModel);
+                        targetModel = sourceModel;
                     } else {
                         var notCopy = dragElm === dropElm;
-                        var targetModel = drake.models[drake.containers.indexOf(target)];
-//                        var dropElmModel = notCopy ? sourceModel[dragIndex] : angular.copy(sourceModel[dragIndex]);
+                        targetModel = drake.models[drake.containers.indexOf(target)];
                         var dropElmModel = notCopy ? draggedModel : angular.copy(draggedModel);
                         droppedModel = convertModelFunc(dropElmModel);
-                        console.log('drake.drag: droppedModel');
-                        console.log(droppedModel);
-
                         if (notCopy) {
                             sourceModel.splice(dragIndex, 1);
                         }
                         targetModel.splice(dropIndex, 0, droppedModel);
                         target.removeChild(dropElm); // element must be removed for ngRepeat to apply correctly
                     }
+                    drake.emit('drop-model', droppedModel, sourceModel, targetModel, dropIndex);
                 });
             });
         }
