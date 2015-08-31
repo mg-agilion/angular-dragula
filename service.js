@@ -39,6 +39,8 @@ function register(angular) {
                     clearModels();
                     sourceModel = drake.models[drake.containers.indexOf(source)];
                     that.draggedModel = sourceModel[dragIndex];
+                    console.log('drake.drag: draggedModel');
+                    console.log(that.draggedModel);
                 });
             });
             drake.on('cancel', function () {
@@ -59,6 +61,8 @@ function register(angular) {
 //                        var dropElmModel = notCopy ? sourceModel[dragIndex] : angular.copy(sourceModel[dragIndex]);
                         var dropElmModel = notCopy ? that.draggedModel : angular.copy(that.draggedModel);
                         that.droppedModel = convertModelFunc(dropElmModel);
+                        console.log('drake.drag: droppedModel');
+                        console.log(that.droppedModel);
 
                         if (notCopy) {
                             sourceModel.splice(dragIndex, 1);
