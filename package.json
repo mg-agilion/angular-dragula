@@ -1,6 +1,6 @@
 {
   "name": "angular-dragula",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Drag and drop so simple it hurts",
   "main": "angular-dragula.js",
   "scripts": {
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bevacqua/angular-dragula.git"
+    "url": "https://github.com/mgombocz/angular-dragula.git"
   },
   "author": "Nicolas Bevacqua <nicolasbevacqua@gmail.com> (http://bevacqua.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bevacqua/angular-dragula/issues"
+    "url": "https://github.com/mgombocz/angular-dragula/issues"
   },
-  "homepage": "https://github.com/bevacqua/angular-dragula",
+  "homepage": "https://github.com/mgombocz/angular-dragula",
   "dependencies": {
     "atoa": "1.0.0",
     "dragula": "3.1.0"

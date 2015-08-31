@@ -1,15 +1,16 @@
 {
-  "name": "angular-dragula",
-  "version": "1.0.12",
-  "description": "Drag and drop so simple it hurts",
-  "main": [
-    "dist/angular-dragula.js",
-    "dist/dragula.css"
-  ],
-  "ignore": [],
-  "homepage": "https://github.com/bevacqua/angular-dragula",
-  "authors": [
-    "Nicolas Bevacqua <nicolasbevacqua@gmail.com>"
-  ],
-  "license": "MIT"
+    "name": "angular-dragula",
+    "version": "1.0.13",
+    "description": "Drag and drop so simple it hurts",
+    "main": [
+        "dist/angular-dragula.js",
+        "dist/dragula.css"
+    ],
+    "ignore": [],
+    "homepage": "https://github.com/mgombocz/angular-dragula",
+    "authors": [
+        "Nicolas Bevacqua <nicolasbevacqua@gmail.com>",
+        "Manuel Gombocz <mgombocz@agilion.net>"
+    ],
+    "license": "MIT"
 }
