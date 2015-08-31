@@ -45,7 +45,7 @@ function register(angular) {
                     sourceModel = drake.models[drake.containers.indexOf(source)];
                     sourceParentModel = drake.parentModels[drake.containers.indexOf(source)];
                     draggedModel = sourceModel[dragIndex];
-                    drake.emit('drag-model', draggedModel, sourceModel, dragIndex);
+                    drake.emit('drag-model', draggedModel, sourceModel, sourceParentModel, dragIndex);
                 });
             });
 
