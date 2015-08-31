@@ -10,7 +10,7 @@ function register(angular) {
             scope: {
                 dragulaScope: '=',
                 dragulaModel: '=',
-                dragulaParentModel: '='
+                dragulaData: '='
             },
             link: link
         };
@@ -20,17 +20,17 @@ function register(angular) {
             var container = elem[0];
             var name = scope.$eval(attrs.dragula);
             var model = scope.dragulaModel;
-            var parentModel = scope.dragulaParentModel;
+            var data = scope.dragulaData;
             var bag = dragulaService.find(dragulaScope, name);
             if (bag) {
                 bag.drake.containers.push(container);
                 if (model) {
                     if (bag.drake.models) {
                         bag.drake.models.push(model);
-                        bag.drake.parentModels.push(parentModel);
+                        bag.drake.data.push(data);
                     } else {
                         bag.drake.models = [model];
-                        bag.drake.parentModels = [parentModel];
+                        bag.drake.data = [data];
                     }
                 }
                 return;
@@ -40,7 +40,7 @@ function register(angular) {
             });
             if (model) {
                 drake.models = [model];
-                drake.parentModels = [parentModel];
+                drake.data = [data];
             }
             dragulaService.add(dragulaScope, name, drake);
         }

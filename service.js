@@ -26,14 +26,14 @@ function register(angular) {
             var dragIndex;
             var dropIndex;
             var sourceModel,
-                sourceParentModel;
+                sourceData;
 
             drake.on('remove', function removeModel(el, source) {
                 sourceModel = drake.models[drake.containers.indexOf(source)];
-                sourceParentModel = drake.parentModels[drake.containers.indexOf(source)];
+                sourceData= drake.data[drake.containers.indexOf(source)];
                 scope.$applyAsync(function () {
                     var removedModels = sourceModel.splice(dragIndex, 1);
-                    drake.emit('remove-model', removedModels[0], sourceModel, sourceParentModel, dragIndex);
+                    drake.emit('remove-model', removedModels[0], sourceModel, sourceData, dragIndex);
                 });
             });
 
@@ -43,9 +43,9 @@ function register(angular) {
                 scope.$applyAsync(function () {
                     clearModels();
                     sourceModel = drake.models[drake.containers.indexOf(source)];
-                    sourceParentModel = drake.parentModels[drake.containers.indexOf(source)];
+                    sourceData = drake.data[drake.containers.indexOf(source)];
                     draggedModel = sourceModel[dragIndex];
-                    drake.emit('drag-model', draggedModel, sourceModel, sourceParentModel, dragIndex);
+                    drake.emit('drag-model', draggedModel, sourceModel, sourceData, dragIndex);
                 });
             });
 
@@ -59,18 +59,18 @@ function register(angular) {
                 dropIndex = domIndexOf(dropElm, target);
                 scope.$applyAsync(function () {
                     sourceModel = drake.models[drake.containers.indexOf(source)];
-                    sourceParentModel = drake.parentModels[drake.containers.indexOf(source)];
+                    sourceData = drake.data[drake.containers.indexOf(source)];
                     var targetModel,
-                        targetParentModel;
+                        targetData;
                     if (target === source) {
                         droppedModel = sourceModel.splice(dragIndex, 1)[0];
                         sourceModel.splice(dropIndex, 0, droppedModel);
                         targetModel = sourceModel;
-                        targetParentModel = sourceParentModel;
+                        targetData = sourceData;
                     } else {
                         var notCopy = dragElm === dropElm;
                         targetModel = drake.models[drake.containers.indexOf(target)];
-                        targetParentModel = drake.parentModels[drake.containers.indexOf(target)];
+                        targetData = drake.data[drake.containers.indexOf(target)];
                         var dropElmModel = notCopy ? draggedModel : angular.copy(draggedModel);
                         droppedModel = convertModelFunc(dropElmModel);
                         if (notCopy) {
@@ -79,7 +79,7 @@ function register(angular) {
                         targetModel.splice(dropIndex, 0, droppedModel);
                         target.removeChild(dropElm); // element must be removed for ngRepeat to apply correctly
                     }
-                    drake.emit('drop-model', droppedModel, sourceModel, sourceParentModel, targetModel, targetParentModel, dropIndex);
+                    drake.emit('drop-model', droppedModel, sourceModel, sourceData, targetModel, targetData, dropIndex);
                 });
             });
         }
