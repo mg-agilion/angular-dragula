@@ -148,10 +148,7 @@ function register(angular) {
         }
 
         function convertModel(convertFunc) {
-            console.log('convertModel');
-            console.log(convertFunc);
             convertModelFunc = convertFunc || passThroughFunc;
-            console.log(convertModelFunc);
         }
 
         function getDraggedModel() {
