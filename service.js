@@ -35,6 +35,12 @@ function register(angular) {
             drake.on('drag', function (el, source) {
                 dragElm = el;
                 dragIndex = domIndexOf(el, source);
+                clearModels();
+                sourceModel = drake.models[drake.containers.indexOf(source)];
+                draggedModel = sourceModel[dragIndex];
+                console.log('drake.drag: draggedModel');
+                console.log(draggedModel);
+/*
                 scope.$applyAsync(function () {
                     clearModels();
                     sourceModel = drake.models[drake.containers.indexOf(source)];
@@ -42,6 +48,7 @@ function register(angular) {
                     console.log('drake.drag: draggedModel');
                     console.log(draggedModel);
                 });
+*/
             });
             drake.on('cancel', function () {
                 scope.$applyAsync(function () {
