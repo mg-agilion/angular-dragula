@@ -7,8 +7,7 @@ var replicateEvents = require('./replicate-events');
 function register(angular) {
     return [function dragulaService() {
 
-        var that = this,
-            convertModelFunc = passThroughFunc,
+        var convertModelFunc = passThroughFunc,
             draggedModel,
             droppedModel;
 
@@ -32,15 +31,16 @@ function register(angular) {
                     sourceModel.splice(dragIndex, 1);
                 });
             });
+
             drake.on('drag', function (el, source) {
                 dragElm = el;
                 dragIndex = domIndexOf(el, source);
                 scope.$applyAsync(function () {
                     clearModels();
                     sourceModel = drake.models[drake.containers.indexOf(source)];
-                    that.draggedModel = sourceModel[dragIndex];
+                    draggedModel = sourceModel[dragIndex];
                     console.log('drake.drag: draggedModel');
-                    console.log(that.draggedModel);
+                    console.log(draggedModel);
                 });
             });
             drake.on('cancel', function () {
@@ -59,15 +59,15 @@ function register(angular) {
                         var notCopy = dragElm === dropElm;
                         var targetModel = drake.models[drake.containers.indexOf(target)];
 //                        var dropElmModel = notCopy ? sourceModel[dragIndex] : angular.copy(sourceModel[dragIndex]);
-                        var dropElmModel = notCopy ? that.draggedModel : angular.copy(that.draggedModel);
-                        that.droppedModel = convertModelFunc(dropElmModel);
+                        var dropElmModel = notCopy ? draggedModel : angular.copy(draggedModel);
+                        droppedModel = convertModelFunc(dropElmModel);
                         console.log('drake.drag: droppedModel');
-                        console.log(that.droppedModel);
+                        console.log(droppedModel);
 
                         if (notCopy) {
                             sourceModel.splice(dragIndex, 1);
                         }
-                        targetModel.splice(dropIndex, 0, that.droppedModel);
+                        targetModel.splice(dropIndex, 0, droppedModel);
                         target.removeChild(dropElm); // element must be removed for ngRepeat to apply correctly
                     }
                 });
@@ -138,15 +138,18 @@ function register(angular) {
         }
 
         function convertModel(convertFunc) {
-            that.convertModelFunc = convertFunc || passThroughFunc;
+            console.log('convertModel');
+            console.log(convertFunc);
+            convertModelFunc = convertFunc || passThroughFunc;
+            console.log(convertModelFunc);
         }
 
         function getDraggedModel() {
-            return that.draggedModel;
+            return draggedModel;
         }
 
         function getDroppedModel() {
-            return that.droppedModel;
+            return droppedModel;
         }
     }];
 }
