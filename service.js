@@ -142,11 +142,11 @@ function register(angular) {
         }
 
         function getDraggedModel() {
-            return draggedModel;
+            return that.draggedModel;
         }
 
         function getDroppedModel() {
-            return droppedModel;
+            return that.droppedModel;
         }
     }];
 }
